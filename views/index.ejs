@@ -1,0 +1,52 @@
+<%- include("partials/header.ejs") %>
+
+<div class="heading">
+<h1>Watched Movies</h1>
+</div>
+
+<div class="wrap-collabsible">
+    <input id="collapsible" class="toggle" type="checkbox">
+    <label for="collapsible" class="lbl-toggle"><img src="images/plus.svg" alt="" height="50px"></label>
+    <div class="collapsible-content">
+      <div class="content-inner">
+        <form id="movieForm" action="/add" method="post">
+            <!-- Your form fields here -->
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="year">Year:</label>
+                <input type="text" id="year" name="year">
+                <input type="submit" value="Add">
+            </div>
+          </form>
+      </div>
+    </div>
+</div>
+
+<div class="box-container">
+    <% for(let movie of movies) { %>
+        <div class="movie">
+            <img src="<%= movie.poster %>" alt="" class="poster" height="250px">
+            <div class ="info">
+                <h3><%= movie.name %> (<%= movie.year%>)</h3>
+                <div class="rating"></div>
+                <p><%= movie.plot %></p>
+                <p> Director: <%=movie.director%></p>
+            </div>
+            <div class="hover-content">
+                <div class="rating">
+                    <div>
+                        <img src="images/imdb.svg" alt="" class="hover-image">
+                        <p><%= movie.imdb_rating %></p>
+                    </div>
+                    <div>
+                        <img src="images/rotten_tomatoes.svg" alt="" class="hover-image">
+                    </div>
+                </div>
+                <img src="images/bin.png" alt="" height="" class="delete">
+            </div>
+        </div>
+    <% } %>
+</div>
