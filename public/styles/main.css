@@ -195,3 +195,39 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #45a049;
 }
+
+button {
+    border: none;
+    background: none;
+}
+
+.tabs {
+    display: flex;
+    width: 100%;
+}
+
+.tab-container {
+    overflow: hidden;
+}
+
+.tablinks {
+    background-color: #ccc;
+    border: 1px solid #aaa;
+    float: left;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.tablinks:hover {
+    background-color: #ddd;
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border: 1px solid #aaa;
+}
+
+.tabcontent.active {
+    display: block;
+}

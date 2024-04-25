@@ -17,7 +17,7 @@ const db = new pg.Client({
     user: "postgres",
     host: "localhost",
     database: "movies",
-    password: "Fixinggood123",
+    password: "Fixinggood070798",
     port: 5432,
 });
 
@@ -43,7 +43,7 @@ app.post("/add", async (req, res) => {
         const api_resp = await axios.get(`http://www.omdbapi.com/?apikey=${key}&t=${name}&y=${year}&plot=short`);
         const data = api_resp.data;
         console.log(data)
-        const result = await db.query(`INSERT INTO movies (name, year, plot, poster, director, imdb_rating) VALUES ($1, $2, $3, $4, $5, $6)`,
+        const result = await db.query(`INSERT INTO movies (name, year, plot, poster, director, imdb_rating) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING;`,
         [data.Title, data.Year, data.Plot, data.Poster, data.Director, data.imdbRating]);
         
     } catch (error){
@@ -52,6 +52,17 @@ app.post("/add", async (req, res) => {
 
     res.redirect("/")
 
+})
+
+app.post("/delete", async (req, res) => {
+    const id = req.body["delID"];
+    try {
+        await db.query("DELETE FROM movies WHERE id = $1", [id]);
+    } catch (error) {
+        console.log(error);
+    }
+    res.redirect("/")
+    console.log(id);
 })
 
 app.listen(port, () => {

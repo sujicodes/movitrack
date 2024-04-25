@@ -3,6 +3,71 @@
 <div class="heading">
 <h1>Watched Movies</h1>
 </div>
+<div class="tabs">
+    <button class="tablinks" data-tab="tab1">Tab 1</button>
+    <button class="tablinks" data-tab="tab2">Tab 2</button>
+</div>
+<div class="tab-container">
+    <!-- Add more buttons for additional tabs if needed -->
+    
+    <div id="tab1" class="tabcontent">
+        <div class="wrap-collabsible">
+            <input id="collapsible" class="toggle" type="checkbox">
+            <label for="collapsible" class="lbl-toggle"><img src="images/plus.svg" alt="" height="50px"></label>
+            <div class="collapsible-content">
+              <div class="content-inner">
+                <form id="movieForm" action="/add" method="post">
+                    <!-- Your form fields here -->
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label for="year">Year:</label>
+                        <input type="text" id="year" name="year">
+                        <input type="submit" value="Add">
+                    </div>
+                  </form>
+              </div>
+            </div>
+        </div>
+        
+        <div class="box-container">
+            <% for(let movie of movies) { %>
+                <div class="movie">
+                    <img src="<%= movie.poster %>" alt="" class="poster" height="250px">
+                    <div class ="info">
+                        <h3><%= movie.name %> (<%= movie.year%>)</h3>
+                        <div class="rating"></div>
+                        <p><%= movie.plot %></p>
+                        <p> Director: <%=movie.director%></p>
+                    </div>
+                    <div class="hover-content">
+                        <div class="rating">
+                            <div>
+                                <img src="images/imdb.svg" alt="" class="hover-image">
+                                <p><%= movie.imdb_rating %></p>
+                            </div>
+                            <div>
+                                <img src="images/rotten_tomatoes.svg" alt="" class="hover-image">
+                            </div>
+                        </div>
+                        
+                        <form action="/delete" method="post">
+                            <button name="delID" value="<%= movie.id %>" class="delete"><img src="images/bin.png" alt="" height="" class="delete"></button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    
+    <div id="tab2" class="tabcontent">
+        Content for Tab 2
+    </div>
+    <!-- Add more divs for additional tabs if needed -->
+</div>
+
 
 <div class="wrap-collabsible">
     <input id="collapsible" class="toggle" type="checkbox">
@@ -45,8 +110,13 @@
                         <img src="images/rotten_tomatoes.svg" alt="" class="hover-image">
                     </div>
                 </div>
-                <img src="images/bin.png" alt="" height="" class="delete">
+
+                <form action="/delete" method="post">
+                    <button name="delID" value="<%= movie.id %>" class="delete"><img src="images/bin.png" alt="" height="" class="delete"></button>
+                </form>
             </div>
         </div>
     <% } %>
 </div>
+
+<script src="js/script.js"></script>
