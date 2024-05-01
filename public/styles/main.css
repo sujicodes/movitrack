@@ -11,12 +11,11 @@ h1 {
     align-items: center;
     flex-wrap: wrap;
     flex-grow: 0;
-    background-color: aqua;
+    background-color: rgb(196, 196, 196);
     margin-left: 20px;
     margin-right: 20px;
 
 }
-
 
 .movie {
     position: relative;
@@ -88,11 +87,24 @@ html {
     display: none;
 }
 
+.append {
+    display: none;
+}
+
 .movie:hover .delete{
     height: 40px;
     display: block;
     position: absolute;
     top: 0;
+    right: 0;
+    margin: 10px;
+}
+
+.movie:hover .append{
+    height: 40px;
+    display: block;
+    position: absolute;
+    bottom: 0;
     right: 0;
     margin: 10px;
 }
@@ -194,4 +206,61 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #45a049;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+
+.tabs {
+    display: flex;
+    width: 100%;
+}
+
+.tab-container {
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tablinks {
+    width: 200px;
+    background-color: #ccc;
+    float: left;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.tablinks:hover {
+    background-color: #ddd;
+}
+
+@media (max-width: 1417px) {
+    .tablinks{
+        width: 300px;
+    }
+}
+
+@media (max-width: 977px) {
+    .tablinks{
+        width: 50%;
+    }
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border: 1px solid #cfcfcf;
+    flex-basis: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.tabcontent.active {
+    display: block;
+    opacity: 1;
 }

@@ -1,52 +1,125 @@
 <%- include("partials/header.ejs") %>
 
 <div class="heading">
-<h1>Watched Movies</h1>
+<h1>Movie Tracker</h1>
 </div>
-
-<div class="wrap-collabsible">
-    <input id="collapsible" class="toggle" type="checkbox">
-    <label for="collapsible" class="lbl-toggle"><img src="images/plus.svg" alt="" height="50px"></label>
-    <div class="collapsible-content">
-      <div class="content-inner">
-        <form id="movieForm" action="/add" method="post">
-            <!-- Your form fields here -->
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div>
-                <label for="year">Year:</label>
-                <input type="text" id="year" name="year">
-                <input type="submit" value="Add">
-            </div>
-          </form>
-      </div>
-    </div>
+<div class="tabs">
+    <button class="tablinks" data-tab="tab1">Watched Movies</button>
+    <button class="tablinks" data-tab="tab2">Movies To Watch</button>
 </div>
-
-<div class="box-container">
-    <% for(let movie of movies) { %>
-        <div class="movie">
-            <img src="<%= movie.poster %>" alt="" class="poster" height="250px">
-            <div class ="info">
-                <h3><%= movie.name %> (<%= movie.year%>)</h3>
-                <div class="rating"></div>
-                <p><%= movie.plot %></p>
-                <p> Director: <%=movie.director%></p>
-            </div>
-            <div class="hover-content">
-                <div class="rating">
+<div class="tab-container">
+    <!-- Add more buttons for additional tabs if needed -->
+    <div id="tab1" class="tabcontent">
+        <div class="wrap-collabsible">
+            <input id="collapsible1" class="toggle" type="checkbox">
+            <label for="collapsible1" class="lbl-toggle"><img src="images/plus.svg" alt="" height="50px"></label>
+            <div class="collapsible-content">
+              <div class="content-inner">
+                <form id="movieForm" action="/add" method="post">
+                    <!-- Your form fields here -->
                     <div>
-                        <img src="images/imdb.svg" alt="" class="hover-image">
-                        <p><%= movie.imdb_rating %></p>
+                        <input type="hidden" name="type" value="watched">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div>
-                        <img src="images/rotten_tomatoes.svg" alt="" class="hover-image">
+                        <label for="year">Year:</label>
+                        <input type="text" id="year" name="year">
+                        <input type="submit" value="Add">
                     </div>
-                </div>
-                <img src="images/bin.png" alt="" height="" class="delete">
+                  </form>
+              </div>
             </div>
         </div>
-    <% } %>
+
+        <div class="box-container">
+            <% if (watchedMovies) { %>
+                <% for(let movie of watchedMovies) { %>
+                    <div class="movie">
+                        <img src="<%= movie.poster %>" alt="" class="poster" height="250px">
+                        <div class ="info">
+                            <h3><%= movie.name %> (<%= movie.year%>)</h3>
+                            <div class="rating"></div>
+                            <p><%= movie.plot %></p>
+                            <p> Director: <%=movie.director%></p>
+                        </div>
+                        <div class="hover-content">
+                            <div class="rating">
+                                <div>
+                                    <a href="https://www.imdb.com/title/<%=movie.imdb_id%>" target="_blank"><img src="images/imdb.svg" alt="" class="hover-image"></a>
+                                    <p><%= movie.imdb_rating %></p>
+                                </div>
+                            </div>
+                            <form action="/delete" method="post">
+                                <input type="hidden" name="type" value="watched">
+                                <button name="delID" value="<%= movie.id %>" class="delete"><img src="images/bin.png" alt="" height="" class="delete"></button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+    
+    <div id="tab2" class="tabcontent">
+        <div class="wrap-collabsible">
+            <input id="collapsible2" class="toggle" type="checkbox">
+            <label for="collapsible2" class="lbl-toggle"><img src="images/plus.svg" alt="" height="50px"></label>
+            <div class="collapsible-content">
+              <div class="content-inner">
+                <form id="movieForm" action="/add" method="post">
+                    <!-- Your form fields here -->
+                    <div>
+                        <input type="hidden" name="type" value="list">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label for="year">Year:</label>
+                        <input type="text" id="year" name="year">
+                        <input type="submit" value="Add">
+                    </div>
+                  </form>
+              </div>
+            </div>
+        </div>
+
+        <div class="box-container">
+            <% if (movieList) { %>
+                <% for(let movie of movieList) { %>
+                    <div class="movie">
+                        <img src="<%= movie.poster %>" alt="" class="poster" height="250px">
+                        <div class ="info">
+                            <h3><%= movie.name %> (<%= movie.year%>)</h3>
+                            <div class="rating"></div>
+                            <p><%= movie.plot %></p>
+                            <p> Director: <%=movie.director%></p>
+                        </div>
+                        <div class="hover-content">
+                            <div class="rating">
+                                <div>
+                                    <a href="https://www.imdb.com/title/<%=movie.imdb_id%>" target="_blank"><img src="images/imdb.svg" alt="" class="hover-image"></a>
+                                    <p><%= movie.imdb_rating %></p>
+                                </div>
+                            </div>
+
+                            <form action="/delete" method="post">
+                                <input type="hidden" name="type" value="list">
+                                <button name="delID" value="<%= movie.id %>" class="delete"><img src="images/bin.png" class="delete"></button>
+                            </form>
+                            <form action="/append" method="post">
+                                <input type="hidden" name="type" value="list">
+                                <button name="appID" value="<%= movie.id %>" class="append"><img src="images/tick.svg" class="append"></button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+
+    </div>
+    <!-- Add more divs for additional tabs if needed -->
 </div>
+
+
+<script src="js/script.js"></script>
