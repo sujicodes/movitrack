@@ -77,8 +77,6 @@ app.post("/add", async (req, res) => {
 
             const result = db.run(query,
             [data.Title, data.Year, data.Plot, data.Poster, data.Director, data.imdbRating, data.imdbID]);
-
-            console.log(result);
             });
         
     } catch (error){
