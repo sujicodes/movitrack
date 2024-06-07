@@ -1,17 +1,19 @@
 import express, { query } from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
-import pg from "pg";
 import sqlite3 from 'sqlite3';
+import cors from "cors";
 
 
 const key = "eeee60ef"
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static("public"))
+
+app.use(cors());
 
 const db = new sqlite3.Database('./database.db');
 app.get("/", async (req, res) => {
@@ -46,6 +48,75 @@ app.get("/", async (req, res) => {
         console.error(error);
     }
 });
+
+app.get("/api/data", async (req, res) => {
+    const watchedMoviesQuery = "SELECT * FROM watched_movies;";
+    const watchedMovies = await new Promise((resolve, reject) => {
+        db.all(watchedMoviesQuery, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+
+    const movieListQuery = "SELECT * FROM movie_list;";
+    const movieList = await new Promise((resolve, reject) => {
+        db.all(movieListQuery, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+
+    res.json({watchedMovies: watchedMovies, movieList: movieList});
+})
+
+
+app.post("/api/data", async (req, res) => {
+    const name = req.body["name"];
+    const year = req.body["year"];
+    const type = req.body["type"];
+    console.log("HIIII")
+    try{
+        const api_resp = await axios.get(`http://www.omdbapi.com/?apikey=${key}&t=${name}&y=${year}&plot=short`);
+        const data = api_resp.data;
+
+        let checkQuery = ""
+        let query = ""
+        if (type === "Watched Movies"){
+            checkQuery = "SELECT * FROM watched_movies WHERE name = ? AND year = ? AND plot = ? AND director = ?;"
+            query = `INSERT INTO watched_movies (name, year, plot, poster, director, imdb_rating, imdb_id) VALUES (?, ?, ?, ?, ?, ?, ?);`
+        } else if (type === "Movie List"){
+            checkQuery = "SELECT * FROM movie_list WHERE name = ? AND year = ? AND plot = ? AND director = ?;"
+            query = `INSERT INTO movie_list (name, year, plot, poster, director, imdb_rating, imdb_id) VALUES (?, ?, ?, ?, ?, ?, ?);`
+        }
+        db.get(checkQuery, [data.Title, data.Year, data.Plot, data.Director], (err, row) => {
+            if (err) {
+                console.error(err.message);
+                return res.sendStatus(500);;
+            }
+            if (row) {
+                console.log('Row already exists. Not inserted.');
+                return res.sendStatus(200);;
+            }
+
+            const result = db.run(query,
+            [data.Title, data.Year, data.Plot, data.Poster, data.Director, data.imdbRating, data.imdbID]);
+            res.sendStatus(201);
+        });
+            
+        
+        
+    } catch (error){
+        console.log(error)
+        res.sendStatus(500);
+    }
+})
+
 
 app.post("/add", async (req, res) => {
     const name = req.body["name"];
