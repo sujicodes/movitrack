@@ -5,11 +5,18 @@
     gap: 10px;
 }
 
+#movieForm > div {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
 #name {
     font-family: sans-serif;
     width: 500px;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -19,7 +26,6 @@
 #year {
     font-family: sans-serif;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;

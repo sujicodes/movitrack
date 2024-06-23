@@ -6,8 +6,13 @@
     padding: 10px 20px;
 }
 
-.tab-button:hover {
+
+.active-button {
     background-color: #ddd;
+}
+
+.tab-button:hover {
+    background-color: #ebe8e8;
 }
 
 @media (max-width: 1417px) {

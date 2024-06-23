@@ -10,7 +10,7 @@ const ExpandMore = (props) => {
     return <IconButton {...other} />;
   };
 
-function AddForm({type, fetch}){
+function AddForm({type, fetch, growTransition}){
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
@@ -30,15 +30,20 @@ function AddForm({type, fetch}){
             [name]: value
         })
         )
-        console.log(movie)
     }
 
     async function handleSubmit(event){
         event.preventDefault();
         try {
-            const response = axios.post('http://localhost:5000/api/data', movie);
+            const response = await axios.post('http://localhost:5000/api/data', movie);
             if (response.status === 201) {
-                await fetch();
+                await growTransition(false);
+                setTimeout(()=>{
+                    fetch();
+                }, 1000);
+                setTimeout(()=>{
+                    growTransition(true)
+                }, 1000)
             } else {
                 console.error('Failed to add item');
               }
