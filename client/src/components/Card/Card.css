@@ -51,30 +51,35 @@
     display: none;
 }
 
-.delete {
+
+.append, .append > *{
     display: none;
 }
 
-.append {
+.delete, .delete > *{
     display: none;
 }
 
 .movie:hover .delete{
-    height: 40px;
     display: block;
     position: absolute;
     top: 0;
     right: 0;
-    margin: 10px;
 }
 
 .movie:hover .append{
-    height: 40px;
     display: block;
-    position: absolute;
     bottom: 0;
     right: 0;
-    margin: 10px;
+    position: absolute;
+}
+
+.movie:hover .append > *{
+    display: block;
+}
+
+.movie:hover .delete > *{
+    display: block;
 }
 
 .movie:hover .rating {
@@ -108,8 +113,3 @@
     gap: 0px;
 }
 
-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-}

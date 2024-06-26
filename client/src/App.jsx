@@ -12,7 +12,6 @@ function App() {
   const [isFetched, setIsFetched] = useState(false);
 
     const fetchData = async () => {
-        console.log(isFetched);
         try {
             console.log("Fetching data...");
             const response = await axios.get('http://localhost:5000/api/data');
@@ -27,7 +26,6 @@ function App() {
         fetchData();
         setIsFetched(true);
     }, []);
-    console.log(data)
     
     const tabs = ["Watched Movies", "Movie List"];
     const initialTab = sessionStorage.getItem('activeTab') || tabs[0];

@@ -103,6 +103,57 @@ app.post("/api/delete", async (req, res) => {
     res.sendStatus(201)
 });
 
+app.post("/api/append", async (req, res) => {
+    const id = req.body["id"];
+    const type = req.body["type"];
+    try {
+        let checkQuery = `SELECT * 
+        FROM watched_movies 
+        WHERE name = (SELECT name FROM movie_list WHERE id = ?)
+        AND year = (SELECT year FROM movie_list WHERE id = ?)
+        AND plot = (SELECT plot FROM movie_list WHERE id = ?)
+        AND director = (SELECT director FROM movie_list WHERE id = ?);`
+        
+        db.get(checkQuery, [id, id, id, id], (err, row) => {
+            if (err) {
+                console.error(err);
+                return res.sendStatus(500);
+            }
+            
+            if (!row) {
+                db.run(`
+                    INSERT INTO watched_movies (name, year, plot, poster, director, imdb_rating, imdb_id)
+                    SELECT name, year, plot, poster, director, imdb_rating, imdb_id
+                    FROM movie_list
+                    WHERE id = ?;`, 
+                    id,
+                    (err) => {
+                        if (err) {
+                            console.error(err);
+                            return res.sendStatus(500);
+                        }
+
+                        db.run("DELETE FROM movie_list WHERE id = ?;", id, (err) => {
+                            if (err) {
+                                console.error(err);
+                                return res.sendStatus(500);
+                            }
+                            return res.sendStatus(201);
+                        });
+                    }
+                );
+            } else {
+                console.log("row exists");
+                return res.sendStatus(409); // Conflict, item already exists
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });

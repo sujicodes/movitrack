@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import IconButton from '@mui/material/IconButton';
 import "./Card.css"
 
 function Card({ movie, type, isMovieList, fetch, growTransition}){
@@ -8,7 +9,15 @@ function Card({ movie, type, isMovieList, fetch, growTransition}){
         event.preventDefault();
         try {
             movie.type = type;
-            const response = await axios.post('http://localhost:5000/api/delete', movie);
+            const button_class_list = event.currentTarget.classList
+            let response;
+            if (button_class_list.contains("delete")){
+                 response = await axios.post('http://localhost:5000/api/delete', movie);
+            } else {
+                response = await axios.post('http://localhost:5000/api/append', movie);
+                console.log(response)
+                 
+            }
             if (response.status === 201) {
                 growTransition(false);
                 setTimeout(()=>{
@@ -25,6 +34,8 @@ function Card({ movie, type, isMovieList, fetch, growTransition}){
         }
     };
 
+    console.log(isMovieList)
+
     return(
     <div className="movie">
         <img src={movie.poster} alt="" className="poster" height="250px" />
@@ -40,16 +51,10 @@ function Card({ movie, type, isMovieList, fetch, growTransition}){
                     <p>{movie.imdb_rating}</p>
                 </div>
             </div>
-            <form onSubmit={handleSubmit}>
-                <input type="hidden" name="type" value="watched" />
-                <button name="delID" value={movie.id} className="delete"><img src="images/bin.png" alt="" height="" className="delete" /></button>
-            </form>
-            { isMovieList ? (               
-                <form onSubmit={handleSubmit}>
-                    <input type="hidden" name="type" value="list" />
-                    <button name="appID" value={movie.id} className="append"><img src="images/tick.svg"/></button>
-                </form>
-            ): null
+            <IconButton value={movie.id} className="delete" onClick={handleSubmit}><img src="images/bin.png" height="40px"/></IconButton>
+            { isMovieList ?                
+                <IconButton value={movie.id} className="append" onClick={handleSubmit}><img src="images/tick.svg" height="40px"/></IconButton>
+            : null
             }
 
         </div>
