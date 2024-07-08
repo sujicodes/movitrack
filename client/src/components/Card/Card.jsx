@@ -3,7 +3,7 @@ import axios from "axios";
 import IconButton from '@mui/material/IconButton';
 import "./Card.css"
 
-function Card({ movie, type, isMovieList, fetch, growTransition}){
+function Card({ movie, type, isMovieList, refresh}){
 
     async function handleSubmit(event){
         event.preventDefault();
@@ -19,13 +19,7 @@ function Card({ movie, type, isMovieList, fetch, growTransition}){
                  
             }
             if (response.status === 201) {
-                growTransition(false);
-                setTimeout(()=>{
-                    fetch();
-                }, 1000);
-                setTimeout(()=>{
-                    growTransition(true)
-                }, 1000)
+                refresh();
             } else {
                 console.error('Failed to add item');
               }

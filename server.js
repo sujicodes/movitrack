@@ -4,7 +4,6 @@ import axios from "axios";
 import sqlite3 from 'sqlite3';
 import cors from "cors";
 
-
 const key = "eeee60ef"
 
 const app = express();
@@ -43,7 +42,6 @@ app.get("/api/data", async (req, res) => {
     res.json({watchedMovies: watchedMovies, movieList: movieList});
 })
 
-
 app.post("/api/data", async (req, res) => {
     const name = req.body["name"];
     const year = req.body["year"];
@@ -76,9 +74,7 @@ app.post("/api/data", async (req, res) => {
             [data.Title, data.Year, data.Plot, data.Poster, data.Director, data.imdbRating, data.imdbID]);
             res.sendStatus(201);
         });
-            
-        
-        
+
     } catch (error){
         console.log(error)
         res.sendStatus(500);
@@ -152,7 +148,6 @@ app.post("/api/append", async (req, res) => {
         return res.sendStatus(500);
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

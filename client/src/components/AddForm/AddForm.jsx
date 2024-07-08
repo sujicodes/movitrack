@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Collapse } from "@mui/material"
+import { Collapse } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import axios from "axios";
-import "./AddForm.css"
+import "./AddForm.css";
 
 const ExpandMore = (props) => {
     const { expand, ...other } = props;
@@ -10,7 +10,7 @@ const ExpandMore = (props) => {
     return <IconButton {...other} />;
   };
 
-function AddForm({type, fetch, growTransition}){
+function AddForm({type, refresh}){
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
@@ -37,13 +37,7 @@ function AddForm({type, fetch, growTransition}){
         try {
             const response = await axios.post('http://localhost:5000/api/data', movie);
             if (response.status === 201) {
-                await growTransition(false);
-                setTimeout(()=>{
-                    fetch();
-                }, 1000);
-                setTimeout(()=>{
-                    growTransition(true)
-                }, 1000)
+               refresh();
             } else {
                 console.error('Failed to add item');
               }
