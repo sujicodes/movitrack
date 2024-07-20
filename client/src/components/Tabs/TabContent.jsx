@@ -9,9 +9,4 @@ const TabContent = ({ label, activeTab, children }) => {
     );
 };
 
-
-
-
-
-
 export default TabContent;
