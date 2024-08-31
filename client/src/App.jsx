@@ -8,8 +8,12 @@ import { AuthContext } from './components/Auth/AuthContext';
 
 
 function App() { 
-  const {user} = useContext(AuthContext);
-  //return( user ? (<Login />) : (<Home />))
+  const logged_user = sessionStorage.getItem("logged_user")
+
+  const {user, login} = useContext(AuthContext);
+  if (logged_user) {
+    login(logged_user)
+  }
 
   return(
     <Routes>

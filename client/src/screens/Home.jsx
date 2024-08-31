@@ -16,7 +16,14 @@ function Home() {
             console.log("Fetching data...");
             const response = await axios.get('http://localhost:5000/api/data');
             console.log("Data received:", response.data);
-            setData(response.data);
+            setIsFetched(false);
+            setTimeout(() => {
+                setData(response.data);
+              }, 1000);
+            setTimeout(() => {
+                setIsFetched(true);
+              }, 1000);
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -24,7 +31,6 @@ function Home() {
 
     useEffect(() => {
         fetchData();
-        setIsFetched(true);
     }, []);
     
     const tabs = ["Watched Movies", "Movie List"];
@@ -59,7 +65,7 @@ function Home() {
           <div>
               {tabs.map((label) => (
                   <TabContent key={label} label={label} activeTab={activeTab}>
-                      <AddForm key={label} type={label} fetch={fetchData} growTransition={setIsFetched}/>
+                      <AddForm key={label} type={label} refresh={fetchData} growTransition={setIsFetched}/>
                     <Grow in={isFetched}>
                       <div className="movie-container">
                             {label === "Movie List" ? (
@@ -67,8 +73,7 @@ function Home() {
                                     <Card key={movie.id} 
                                     movie={movie} 
                                     isMovieList={true} 
-                                    fetch={fetchData} 
-                                    growTransition={setIsFetched} 
+                                    refresh={fetchData} 
                                     type={label}/>
                                 ))
                             ) : (
@@ -76,8 +81,7 @@ function Home() {
                                     <Card key={movie.id} 
                                     movie={movie} 
                                     isMovieList={false} 
-                                    fetch={fetchData} 
-                                    growTransition={setIsFetched} 
+                                    refresh={fetchData} 
                                     type={label}/>
                                 ))
                             )}

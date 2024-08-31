@@ -8,11 +8,12 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
   
     const login = (userData) => {
-      console.log(userData)
       setUser(userData);
+      sessionStorage.setItem("logged_user", user)
     };
   
     const logout = () => {
+      sessionStorage.removeItem("logged_user")
       setUser(null);
     };
   
