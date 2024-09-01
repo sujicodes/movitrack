@@ -1,9 +1,9 @@
 import react from "react";
-import "./TabContent.css"
+import "./TabContent.css";
 
 const TabContent = ({ label, activeTab, children }) => {
     return (
-        <div className={`tab-content ${activeTab === label ? '' : 'hidden'}`}>
+        <div className={`tab-content ${activeTab === label ? "" : "hidden"}`}>
             {children}
         </div>
     );

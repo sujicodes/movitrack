@@ -1,27 +1,26 @@
-import React, { createContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
-
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-  
+
     const login = (userData) => {
-      setUser(userData);
-      sessionStorage.setItem("logged_user", user)
+        setUser(userData);
+        sessionStorage.setItem("logged_user", user);
     };
-  
+
     const logout = () => {
-      sessionStorage.removeItem("logged_user")
-      setUser(null);
+        sessionStorage.removeItem("logged_user");
+        setUser(null);
     };
-  
+
     return (
-      <AuthContext.Provider value={{ user, login, logout }}>
-        {children}
-      </AuthContext.Provider>
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
-  };
+};
 
 export default AuthProvider;

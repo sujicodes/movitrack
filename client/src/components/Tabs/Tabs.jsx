@@ -1,25 +1,23 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react";
 import AddForm from "../AddForm/AddForm";
 import Card from "../Card/Card";
-import TabButton from "./TabButton"
+import TabButton from "./TabButton";
 import TabContent from "./TabContent";
-import "./Tabs.css"
-
+import "./Tabs.css";
 
 function Tabs({ data }) {
-    
     const tabs = ["Watched Movies", "Movie List"];
-    const initialTab = sessionStorage.getItem('activeTab') || tabs[0];
+    const initialTab = sessionStorage.getItem("activeTab") || tabs[0];
 
     const [activeTab, setActiveTab] = useState(initialTab);
 
     useEffect(() => {
-        sessionStorage.setItem('activeTab', activeTab);
+        sessionStorage.setItem("activeTab", activeTab);
     }, [activeTab]);
 
     let watchedMovies = [];
     let movieList = [];
-    
+
     if (data) {
         watchedMovies = data.watchedMovies || [];
         movieList = data.movieList || [];
@@ -29,9 +27,9 @@ function Tabs({ data }) {
         <div>
             <div className="tabs">
                 {tabs.map((label) => (
-                    <TabButton 
-                        key={label} 
-                        label={label} 
+                    <TabButton
+                        key={label}
+                        label={label}
                         activeTab={activeTab}
                         onClick={() => setActiveTab(label)}
                     />
@@ -40,24 +38,29 @@ function Tabs({ data }) {
             <div>
                 {tabs.map((label) => (
                     <TabContent key={label} label={label} activeTab={activeTab}>
-                        <AddForm key = {label}/>
+                        <AddForm key={label} />
                         <div className="movie-container">
-                            {label === "Movie List" ? (
-                                movieList.map((movie) => (
-                                    <Card key={movie.id} movie={movie} isMovieList={true} />
-                                ))
-                            ) : (
-                                watchedMovies.map((movie) => (
-                                    <Card key={movie.id} movie={movie} isMovieList={false} />
-                                ))
-                            )}
+                            {label === "Movie List"
+                                ? movieList.map((movie) => (
+                                      <Card
+                                          key={movie.id}
+                                          movie={movie}
+                                          isMovieList={true}
+                                      />
+                                  ))
+                                : watchedMovies.map((movie) => (
+                                      <Card
+                                          key={movie.id}
+                                          movie={movie}
+                                          isMovieList={false}
+                                      />
+                                  ))}
                         </div>
-                    </TabContent> 
+                    </TabContent>
                 ))}
             </div>
         </div>
     );
 }
-
 
 export default Tabs;

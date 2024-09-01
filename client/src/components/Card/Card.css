@@ -1,4 +1,3 @@
-
 .movie {
     position: relative;
     display: flex;
@@ -15,13 +14,17 @@
 }
 
 .movie::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)); /* Gradient and image */
+    background-image: linear-gradient(
+        to bottom right,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.9)
+    ); /* Gradient and image */
     transition: opacity 0.3s;
     opacity: 0;
 }
@@ -51,34 +54,35 @@
     display: none;
 }
 
-
-.append, .append > *{
+.append,
+.append > * {
     display: none;
 }
 
-.delete, .delete > *{
+.delete,
+.delete > * {
     display: none;
 }
 
-.movie:hover .delete{
+.movie:hover .delete {
     display: block;
     position: absolute;
     top: 0;
     right: 0;
 }
 
-.movie:hover .append{
+.movie:hover .append {
     display: block;
     bottom: 0;
     right: 0;
     position: absolute;
 }
 
-.movie:hover .append > *{
+.movie:hover .append > * {
     display: block;
 }
 
-.movie:hover .delete > *{
+.movie:hover .delete > * {
     display: block;
 }
 
@@ -106,10 +110,9 @@
     width: 50px;
 }
 
-.hover-content > .rating > *{
+.hover-content > .rating > * {
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 0px;
 }
-

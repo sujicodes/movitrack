@@ -3,7 +3,7 @@
     width: 100%;
 }
 
-.movie-container{
+.movie-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -13,5 +13,4 @@
     background-color: rgb(196, 196, 196);
     margin-left: 20px;
     margin-right: 20px;
-
 }

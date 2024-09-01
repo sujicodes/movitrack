@@ -6,6 +6,6 @@
     align-items: center;
 }
 
-.login-container  > * {
+.login-container > * {
     width: 500px;
 }

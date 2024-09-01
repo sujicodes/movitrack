@@ -8,7 +8,6 @@
     background: none;
 }
 
-
 .active-button {
     background-color: #ddd;
 }
@@ -18,13 +17,13 @@
 }
 
 @media (max-width: 1417px) {
-    .tab-button{
+    .tab-button {
         width: 300px;
     }
 }
 
 @media (max-width: 977px) {
-    .tab-button{
+    .tab-button {
         width: 50%;
     }
 }

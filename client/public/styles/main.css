@@ -1,4 +1,3 @@
-
 h1 {
     text-align: center;
     font-family: sans-serif;
@@ -8,7 +7,8 @@ h3 {
     font-family: sans-serif;
 }
 
-p, label {
+p,
+label {
     font-family: sans-serif;
     font-size: small;
 }
@@ -16,4 +16,3 @@ p, label {
 html {
     background-color: #e8e8e8;
 }
-
