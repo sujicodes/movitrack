@@ -12,11 +12,9 @@ export const handleAddMovie = async (req, res) => {
 
         switch (result.status) {
             case "exists_in_current_table":
-                return res
-                    .status(400)
-                    .json({
-                        error: `Movie already exists in the ${result.table}.`,
-                    });
+                return res.status(400).json({
+                    error: `Movie already exists in the ${result.table}.`,
+                });
 
             case "exists_in_other_table":
                 return res.status(400).json({

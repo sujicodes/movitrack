@@ -17,6 +17,8 @@ import {
     getAllMovies,
 } from "./models/movie.js";
 
+import { loginUser } from "./models/user.js";
+
 const key = "eeee60ef";
 
 const app = express();
@@ -58,65 +60,19 @@ app.post("/api/auth/google", async (req, res) => {
             `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`,
         );
         const userData = response.data;
-
-        let user = await new Promise((resolve, reject) => {
-            db.get(
-                "SELECT * FROM users WHERE auth_id = ? OR email = ?",
-                [userData.sub, userData.email],
-                (err, row) => {
-                    if (err) {
-                        console.error(err.message);
-                        reject(err);
-                    } else {
-                        resolve(row);
-                    }
-                },
-            );
+        const { status, user } = await loginUser(
+            userData.name,
+            userData.email,
+            userData.sub,
+            "google",
+        );
+        console.log(user);
+        req.login(user, (err) => {
+            if (err) {
+                return res.status(500).send("Internal Server Error");
+            }
+            res.json({ success: true, user });
         });
-
-        if (user) {
-            req.login(user, (err) => {
-                if (err) {
-                    return res.status(500).send("Internal Server Error");
-                }
-                console.log("hiiiiiasasas");
-                res.json({ success: true, user });
-            });
-        } else {
-            let lastID = await new Promise((resolve, reject) => {
-                db.run(
-                    "INSERT INTO users (fullname, email, auth_id, auth_type) VALUES (?, ?, ?, ?)",
-                    [userData.name, userData.email, userData.sub, "google"],
-                    function (err) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(this.lastID);
-                        }
-                    },
-                );
-            });
-
-            user = await db.get(
-                "SELECT * FROM users WHERE id = ?",
-                [lastID],
-                (err, row) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res.sendStatus(500);
-                    }
-                    user = row;
-                    console.log(user);
-                },
-            );
-
-            req.login(user, (err) => {
-                if (err) {
-                    return res.status(500).send("Internal Server Error");
-                }
-                res.json({ success: true, user });
-            });
-        }
     } catch (error) {
         console.error("Google authentication error:", error);
         res.status(401).send("Unauthorized");
@@ -126,66 +82,21 @@ app.post("/api/auth/google", async (req, res) => {
 app.post("/api/auth/facebook", async (req, res) => {
     const userData = req.body.data;
     try {
-        let user = await new Promise((resolve, reject) => {
-            db.get(
-                "SELECT * FROM users WHERE auth_id = ? OR email = ?",
-                [userData.id, userData.email],
-                (err, row) => {
-                    if (err) {
-                        console.error(err.message);
-                        reject(err);
-                    } else {
-                        resolve(row);
-                    }
-                },
-            );
+        const { status, user } = await loginUser(
+            userData.name,
+            userData.email,
+            userData.id,
+            "facebook",
+        );
+        console.log(user);
+        req.login(user, (err) => {
+            if (err) {
+                return res.status(500).send("Internal Server Error");
+            }
+            res.json({ success: true, user });
         });
-
-        if (user) {
-            req.login(user, (err) => {
-                if (err) {
-                    return res.status(500).send("Internal Server Error");
-                }
-                console.log("hiiiiiasasas");
-                res.json({ success: true, user });
-            });
-        } else {
-            let lastID = await new Promise((resolve, reject) => {
-                db.run(
-                    "INSERT INTO users (fullname, email, auth_id, auth_type) VALUES (?, ?, ?, ?)",
-                    [userData.name, userData.email, userData.id, "facebook"],
-                    function (err) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(this.lastID);
-                        }
-                    },
-                );
-            });
-
-            user = await db.get(
-                "SELECT * FROM users WHERE id = ?",
-                [lastID],
-                (err, row) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res.sendStatus(500);
-                    }
-                    user = row;
-                    console.log(user);
-                },
-            );
-
-            req.login(user, (err) => {
-                if (err) {
-                    return res.status(500).send("Internal Server Error");
-                }
-                res.json({ success: true, user });
-            });
-        }
     } catch (error) {
-        console.error("facebook authentication error:", error);
+        console.error("Google authentication error:", error);
         res.status(401).send("Unauthorized");
     }
 });
@@ -209,11 +120,9 @@ app.post("/api/data", async (req, res) => {
             const result = await addMovie(type, data);
             switch (result.status) {
                 case "exists_in_current_table":
-                    return res
-                        .status(400)
-                        .json({
-                            error: `Movie already exists in the ${result.table}.`,
-                        });
+                    return res.status(400).json({
+                        error: `Movie already exists in the ${result.table}.`,
+                    });
 
                 case "exists_in_other_table":
                     return res.status(400).json({

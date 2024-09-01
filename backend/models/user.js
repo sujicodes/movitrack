@@ -1,4 +1,4 @@
-import db from "../config/db";
+import db from "../config/db.js";
 
 export const findUserById = (id) => {
     return new Promise((resolve, reject) => {
@@ -33,4 +33,18 @@ export const createUser = (name, email, authId, authType) => {
             },
         );
     });
+};
+
+export const loginUser = async (name, email, authId, authType) => {
+    try {
+        let user = await getExisitingUser(authId, email);
+        if (user) {
+            return { status: "exists", user };
+        }
+        const id = await createUser(name, email, authId, authType);
+        user = await getUserById(lastID);
+        return { status: "created", user };
+    } catch (error) {
+        throw error;
+    }
 };
