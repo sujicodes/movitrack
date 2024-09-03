@@ -1,4 +1,4 @@
-import express, { query } from "express";
+import express, { query, response } from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import cors from "cors";
@@ -6,15 +6,12 @@ import session from "express-session";
 import passport from "passport";
 
 import db from "./config/db.js";
-import {
-    handleAddMovie,
-    handleAppendToWatchedMovie,
-    handleDeleteMovie,
-} from "./controllers/movieController.js";
+
 import {
     deleteMovie,
     appendToWatchedMovie,
     getAllMovies,
+    addMovie,
 } from "./models/movie.js";
 
 import { loginUser } from "./models/user.js";
@@ -102,14 +99,16 @@ app.post("/api/auth/facebook", async (req, res) => {
 });
 
 app.get("/api/data", async (req, res) => {
-    const { watchedMovies, movieList } = await getAllMovies();
+    const userId = req.query.user.id
+    const { watchedMovies, movieList } = await getAllMovies(userId);
     res.json({ watchedMovies: watchedMovies, movieList: movieList });
 });
 
 app.post("/api/data", async (req, res) => {
-    const name = req.body["name"];
-    const year = req.body["year"];
-    const type = req.body["type"];
+    const {movie, user} = req.body
+    const name = movie["name"];
+    const year = movie["year"];
+    const type = movie["type"];
     console.log(req.body);
     try {
         const api_resp = await axios.get(
@@ -117,7 +116,7 @@ app.post("/api/data", async (req, res) => {
         );
         const data = api_resp.data;
         try {
-            const result = await addMovie(type, data);
+            const result = await addMovie(type, data, user.id);
             switch (result.status) {
                 case "exists_in_current_table":
                     return res.status(400).json({
@@ -166,9 +165,10 @@ app.post("/api/delete", async (req, res) => {
 });
 
 app.post("/api/append", async (req, res) => {
-    const id = req.body["id"];
+    const movie = req.body["movie"];
+    const user = req.body["user"];
     try {
-        const result = await appendToWatchedMovie(id);
+        const result = await appendToWatchedMovie(movie.id, user.id);
         switch (result.status) {
             case "exists":
                 return res

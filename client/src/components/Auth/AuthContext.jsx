@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
 
     const login = (userData) => {
         setUser(userData);
-        sessionStorage.setItem("logged_user", user);
+        sessionStorage.setItem("logged_user", JSON.stringify(userData));
     };
 
     const logout = () => {

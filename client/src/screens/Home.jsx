@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../components/Auth/AuthContext";
 import Tabs from "../components/Tabs/Tabs";
 import AddForm from "../components/AddForm/AddForm";
 import Card from "../components/Card/Card";
@@ -10,11 +11,14 @@ import Grow from "@mui/material/Grow";
 function Home() {
     const [data, setData] = useState({});
     const [isFetched, setIsFetched] = useState(false);
+    const {user, login, logout } = useContext(AuthContext);
 
     const fetchData = async () => {
         try {
             console.log("Fetching data...");
-            const response = await axios.get("http://localhost:5000/api/data");
+            const response = await axios.get("http://localhost:5000/api/data", {
+                params: {user: user}
+            });
             console.log("Data received:", response.data);
             setIsFetched(false);
             setTimeout(() => {

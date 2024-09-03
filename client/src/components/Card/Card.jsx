@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
+import { AuthContext } from "../Auth/AuthContext";
 import "./Card.css";
 
 function Card({ movie, type, isMovieList, refresh }) {
+    const { user } = useContext(AuthContext);
+
     async function handleSubmit(event) {
         event.preventDefault();
         try {
@@ -18,7 +21,7 @@ function Card({ movie, type, isMovieList, refresh }) {
             } else {
                 response = await axios.post(
                     "http://localhost:5000/api/append",
-                    movie,
+                    {movie: movie, user: user}
                 );
                 console.log(response);
             }

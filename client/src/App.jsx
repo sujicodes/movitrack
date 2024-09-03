@@ -13,10 +13,11 @@ import { AuthContext } from "./components/Auth/AuthContext";
 
 function App() {
     const logged_user = sessionStorage.getItem("logged_user");
+    console.log(logged_user)
 
     const { user, login } = useContext(AuthContext);
-    if (logged_user) {
-        login(logged_user);
+    if (logged_user && !user) {
+        login(JSON.parse(logged_user));
     }
 
     return (

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Collapse } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import "./AddForm.css";
+import { AuthContext } from "../Auth/AuthContext";
 
 const ExpandMore = (props) => {
     const { expand, ...other } = props;
@@ -12,6 +13,7 @@ const ExpandMore = (props) => {
 
 function AddForm({ type, refresh }) {
     const [expanded, setExpanded] = useState(false);
+    const {user} = useContext(AuthContext);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -34,9 +36,10 @@ function AddForm({ type, refresh }) {
     async function handleSubmit(event) {
         event.preventDefault();
         try {
+            console.log(user)
             const response = await axios.post(
                 "http://localhost:5000/api/data",
-                movie,
+                {movie: movie, user: user},
             );
             if (response.status === 201) {
                 refresh();
