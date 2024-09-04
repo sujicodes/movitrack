@@ -61,6 +61,7 @@ app.post("/api/auth/google", async (req, res) => {
             userData.name,
             userData.email,
             userData.sub,
+            userData.picture,
             "google",
         );
         console.log(user);
@@ -83,6 +84,7 @@ app.post("/api/auth/facebook", async (req, res) => {
             userData.name,
             userData.email,
             userData.id,
+            userData.picture.data.url,
             "facebook",
         );
         console.log(user);

@@ -6,6 +6,7 @@ import AddForm from "../components/AddForm/AddForm";
 import Card from "../components/Card/Card";
 import TabButton from "../components/Tabs/TabButton";
 import TabContent from "../components/Tabs/TabContent";
+import LogoutButton from "../components/Buttons/LogoutButton";
 import Grow from "@mui/material/Grow";
 
 function Home() {
@@ -55,6 +56,7 @@ function Home() {
 
     return (
         <div>
+            <LogoutButton />
             <div className="tabs">
                 {tabs.map((label) => (
                     <TabButton
