@@ -9,6 +9,8 @@ import LogoutButton from "../components/Buttons/LogoutButton";
 import Grow from "@mui/material/Grow";
 import config from "../config";
 
+import "./Home.css";
+
 function Home() {
     const [data, setData] = useState({});
     const [isFetched, setIsFetched] = useState(false);
