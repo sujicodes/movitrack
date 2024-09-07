@@ -1,0 +1,29 @@
+.tab-button {
+    width: 200px;
+    background-color: #ccc;
+    float: left;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 1px;
+    background: none;
+}
+
+.active-button {
+    background-color: #ddd;
+}
+
+.tab-button:hover {
+    background-color: #ebe8e8;
+}
+
+@media (max-width: 1417px) {
+    .tab-button {
+        width: 300px;
+    }
+}
+
+@media (max-width: 977px) {
+    .tab-button {
+        width: 50%;
+    }
+}
