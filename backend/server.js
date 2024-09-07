@@ -19,7 +19,7 @@ dotenv.config({ path: '../.env' });
 const key = process.env.API_KEY;
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
