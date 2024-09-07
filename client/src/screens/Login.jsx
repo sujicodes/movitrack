@@ -45,7 +45,7 @@ const Login = () => {
         <div className="login-container">
             <h1>Login, to use movitrack</h1>
             <LoginSocialFacebook
-                appId="464555689517211"
+                appId={process.env.FACEBOOK_APP_ID}
                 onResolve={handleFacebookSuccess}
                 onReject={(error) => {
                     console.log(error);
@@ -53,7 +53,7 @@ const Login = () => {
             >
                 <FacebookLoginButton />
             </LoginSocialFacebook>
-            <GoogleOAuthProvider clientId="174570537860-6vkd39p098a9mnb66kpi9tlistc3i224.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
                 <GoogleLogin onSuccess={handleGoogleSuccess} />
             </GoogleOAuthProvider>
         </div>

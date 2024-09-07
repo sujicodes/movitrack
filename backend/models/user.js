@@ -42,7 +42,7 @@ export const loginUser = async (name, email, authId, picture, authType) => {
             return { status: "exists", user };
         }
         const id = await createUser(name, email, authId, picture, authType);
-        user = await getUserById(lastID);
+        user = await getUserById(id);
         return { status: "created", user };
     } catch (error) {
         throw error;

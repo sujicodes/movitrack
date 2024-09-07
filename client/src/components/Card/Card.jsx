@@ -51,7 +51,7 @@ function Card({ movie, type, isMovieList, refresh }) {
                 <div className="rating">
                     <div>
                         <a
-                            href="https://www.imdb.com/title/<%=movie.imdb_id%>"
+                            href={`https://www.imdb.com/title/${movie.imdb_id}`}
                             target="_blank"
                         >
                             <img

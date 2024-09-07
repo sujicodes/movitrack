@@ -24,10 +24,10 @@ function Home() {
             setIsFetched(false);
             setTimeout(() => {
                 setData(response.data);
-            }, 1000);
+            }, 500);
             setTimeout(() => {
                 setIsFetched(true);
-            }, 1000);
+            }, 500);
         } catch (error) {
             console.error("Error fetching data:", error);
         }

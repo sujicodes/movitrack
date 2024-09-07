@@ -4,9 +4,8 @@ import axios from "axios";
 import cors from "cors";
 import session from "express-session";
 import passport from "passport";
-
+import dotenv from 'dotenv';
 import db from "./config/db.js";
-
 import {
     deleteMovie,
     appendToWatchedMovie,
@@ -16,7 +15,8 @@ import {
 
 import { loginUser } from "./models/user.js";
 
-const key = "eeee60ef";
+dotenv.config({ path: '../.env' });
+const key = process.env.API_KEY;
 
 const app = express();
 const port = 5000;
@@ -28,7 +28,7 @@ app.use(cors());
 
 app.use(
     session({
-        secret: "sJFTOowoltEzB0WW9P7eCtxUOk08fryr",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
     }),
