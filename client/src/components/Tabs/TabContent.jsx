@@ -1,4 +1,3 @@
-import react from "react";
 import "./TabContent.css";
 
 const TabContent = ({ label, activeTab, children }) => {
