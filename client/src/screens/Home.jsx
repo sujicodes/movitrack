@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import { AuthContext } from "../components/Auth/AuthContext";
-import Tabs from "../components/Tabs/Tabs";
 import AddForm from "../components/AddForm/AddForm";
 import Card from "../components/Card/Card";
 import TabButton from "../components/Tabs/TabButton";
 import TabContent from "../components/Tabs/TabContent";
 import LogoutButton from "../components/Buttons/LogoutButton";
 import Grow from "@mui/material/Grow";
+import config from "../config";
 
 function Home() {
     const [data, setData] = useState({});
     const [isFetched, setIsFetched] = useState(false);
-    const {user, login, logout } = useContext(AuthContext);
+    const {user } = useContext(AuthContext);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             console.log("Fetching data...");
-            const response = await axios.get("http://localhost:5000/api/data", {
+            const response = await axios.get(`${config.apiUrl}/api/data`, {
                 params: {user: user}
             });
             console.log("Data received:", response.data);
@@ -31,11 +31,11 @@ function Home() {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     const tabs = ["Watched Movies", "Movie List"];
     const initialTab = sessionStorage.getItem("activeTab") || tabs[0];
