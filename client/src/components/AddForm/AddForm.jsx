@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import "./AddForm.css";
 import { AuthContext } from "../Auth/AuthContext";
+import config from "../../config";
 
 const ExpandMore = (props) => {
     const { expand, ...other } = props;
@@ -38,7 +39,7 @@ function AddForm({ type, refresh }) {
         try {
             console.log(user)
             const response = await axios.post(
-                "http://localhost:5000/api/data",
+                `${config.apiUrl}/api/data`,
                 {movie: movie, user: user},
             );
             if (response.status === 201) {

@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import { AuthContext } from "../Auth/AuthContext";
+import config from "../../config";
+
 import "./Card.css";
 
 function Card({ movie, type, isMovieList, refresh }) {
@@ -15,12 +17,12 @@ function Card({ movie, type, isMovieList, refresh }) {
             let response;
             if (button_class_list.contains("delete")) {
                 response = await axios.post(
-                    "http://localhost:5000/api/delete",
+                    `${config.apiUrl}/api/delete`,
                     movie,
                 );
             } else {
                 response = await axios.post(
-                    "http://localhost:5000/api/append",
+                    `${config.apiUrl}/api/append`,
                     {movie: movie, user: user}
                 );
                 console.log(response);
@@ -52,7 +54,6 @@ function Card({ movie, type, isMovieList, refresh }) {
                     <div>
                         <a
                             href={`https://www.imdb.com/title/${movie.imdb_id}`}
-                            target="_blank"
                         >
                             <img
                                 src="images/imdb.svg"
@@ -68,7 +69,7 @@ function Card({ movie, type, isMovieList, refresh }) {
                     className="delete"
                     onClick={handleSubmit}
                 >
-                    <img src="images/bin.png" height="40px" />
+                    <img src="images/bin.png" height="40px" alt="delete"/>
                 </IconButton>
                 {isMovieList ? (
                     <IconButton
@@ -76,7 +77,7 @@ function Card({ movie, type, isMovieList, refresh }) {
                         className="append"
                         onClick={handleSubmit}
                     >
-                        <img src="images/tick.svg" height="40px" />
+                        <img src="images/tick.svg" height="40px"  alt="append"/>
                     </IconButton>
                 ) : null}
             </div>

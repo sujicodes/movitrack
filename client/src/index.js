@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter as Router } from "react-router-dom";
 import AuthProvider from "./components/Auth/AuthContext";
 import App from "./App";

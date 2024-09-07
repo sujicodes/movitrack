@@ -16,8 +16,8 @@ import {
 import { loginUser } from "./models/user.js";
 
 dotenv.config({ path: '../.env' });
-const key = process.env.API_KEY;
 
+const key = process.env.API_KEY;
 const app = express();
 const port = 5000;
 

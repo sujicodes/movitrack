@@ -4,19 +4,16 @@ import { LoginSocialFacebook } from "reactjs-social-login";
 import { FacebookLoginButton } from "react-social-login-buttons";
 import { AuthContext } from "../components/Auth/AuthContext";
 import axios from "axios";
+import config from "../config";
 import "./Login.css";
 
 const Login = () => {
-    const responseFacebook = (response) => {
-        console.log(response);
-    };
-
-    const { user, login, logout } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
 
     const handleGoogleSuccess = async (response) => {
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/auth/google",
+                `${config.apiUrl}/api/auth/google`,
                 {
                     token: response.credential,
                 },
@@ -30,7 +27,7 @@ const Login = () => {
         try {
             console.log(response);
             const res = await axios.post(
-                "http://localhost:5000/api/auth/facebook",
+                `${config.apiUrl}/api/auth/facebook`,
                 {
                     data: response.data,
                 },
@@ -40,12 +37,13 @@ const Login = () => {
             console.error("Facebook login error", error);
         }
     };
+    console.log(process.env.GOOGLE_CLIENT_ID)
 
     return (
         <div className="login-container">
             <h1>Login, to use movitrack</h1>
             <LoginSocialFacebook
-                appId={process.env.FACEBOOK_APP_ID}
+                appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                 onResolve={handleFacebookSuccess}
                 onReject={(error) => {
                     console.log(error);
@@ -53,7 +51,7 @@ const Login = () => {
             >
                 <FacebookLoginButton />
             </LoginSocialFacebook>
-            <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
                 <GoogleLogin onSuccess={handleGoogleSuccess} />
             </GoogleOAuthProvider>
         </div>

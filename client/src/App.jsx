@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import React, { useContext } from "react";
 import {
-    BrowserRouter as Router,
     Route,
     Routes,
     Navigate,
 } from "react-router-dom";
-import axios from "axios";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
 import { AuthContext } from "./components/Auth/AuthContext";
