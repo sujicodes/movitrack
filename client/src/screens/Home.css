@@ -1,0 +1,16 @@
+.tabs {
+    display: flex;
+    width: 100%;
+}
+
+.movie-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-grow: 0;
+    background-color: rgb(196, 196, 196);
+    margin-left: 20px;
+    margin-right: 20px;
+}

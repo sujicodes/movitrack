@@ -37,8 +37,6 @@ const Login = () => {
             console.error("Facebook login error", error);
         }
     };
-    console.log(process.env.GOOGLE_CLIENT_ID)
-
     return (
         <div className="login-container">
             <h1>Login, to use movitrack</h1>
