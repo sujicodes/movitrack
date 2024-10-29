@@ -39,7 +39,7 @@ const Login = () => {
     };
     return (
         <div className="login-container">
-            <h1>Login, to use movitracker</h1>
+            <h1>Login, to use losstracker</h1>
             <LoginSocialFacebook
                 appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                 onResolve={handleFacebookSuccess}
